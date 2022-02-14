@@ -21,19 +21,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Generate Changelog
-        run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
+        run: echo "# Good things have arrived" > CHANGELOG.txt
       - name: Release
         uses: softprops/action-gh-release@v1
         id: create_release
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          body_path: CHANGELOG.txt
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
       - name: Upload asset to GitHub Release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ github.workspace }}-CHANGELOG.txt
-          asset_name: ${{ github.workspace }}-CHANGELOG.txt
+          asset_path: ./CHANGELOG.txt
+          asset_name: CHANGELOG.txt
           asset_content_type: application/txt

@@ -28,10 +28,10 @@ jobs:
             LICENSE.txt
             *.jar
 
-      - name: Upload asset to GitHub Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: "${{ steps.release_create.outputs.upload_url }}"
-          asset_path: ./Release.txt
-          asset_name: Release.txt
-          asset_content_type: application/zip
+      # - name: Upload asset to GitHub Release
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: "${{ steps.release_create.outputs.upload_url }}"
+      #     asset_path: ./Release.txt
+      #     asset_name: Release.txt
+      #     asset_content_type: application/zip

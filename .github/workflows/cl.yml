@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -28,6 +30,15 @@ jobs:
             LICENSE.txt
             *.jar
 
+      - name: Release1
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: Release.txt
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            Release.txt
+            LICENSE
       # - name: Upload asset to GitHub Release
       #   uses: actions/upload-release-asset@v1
       #   with:

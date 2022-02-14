@@ -1,39 +1,19 @@
-name: "Test CI"
+name: Main
 
-on:
-  push:
-    branches:
-      - "*"
-    tags:
-      - "v*"
-  pull_request:
-    branches:
-      - "*"
+on: push
+
 jobs:
-  Build1:
-    name: carthage build
-    runs-on: macos-11
-    env:
-      SCHEME_NAME: ZallDataSDK
-      DEVELOPER_DIR: /Applications/Xcode_13.0.app
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate Changelog
-        run: echo "# Good things have arrived" > CHANGELOG.txt
+      - name: Build
+        run: echo ${{ github.sha }} > Release.txt
+      - name: Test
+        run: cat Release.txt
       - name: Release
         uses: softprops/action-gh-release@v1
-        id: create_release
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          body_path: CHANGELOG.txt
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-
-      - name: Upload asset to GitHub Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./CHANGELOG.txt
-          asset_name: CHANGELOG.txt
-          asset_content_type: application/txt
+          files: Release.txt
